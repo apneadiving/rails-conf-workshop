@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-xdescribe Services::User::Credit do
+describe Services::User::Credit do
 
   let(:service)     { described_class.new(user: user, cents: cents, source: invitation) }
   let!(:invitation) { Factories.create_invitation }

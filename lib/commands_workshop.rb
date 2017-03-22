@@ -1,4 +1,5 @@
 require "commands_workshop/engine"
+require "waterfall"
 
 module CommandsWorkshop
   # Your code goes here...
@@ -8,6 +9,10 @@ end
 # as explained in https://github.com/apneadiving/waterfall#rails-and-transactions
 module Waterfall
   extend ActiveSupport::Concern
+
+  included do
+    include ::ActiveModel::Validations
+  end
 
   class Rollback < StandardError; end
 

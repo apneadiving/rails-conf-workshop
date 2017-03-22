@@ -12,7 +12,7 @@ module Services
 
       def call
         with_transaction do
-          chain do
+          chain(invitee: :invitee) do
             ::Services::User::CreateFromInvitation.new(invitation)
           end
           chain do

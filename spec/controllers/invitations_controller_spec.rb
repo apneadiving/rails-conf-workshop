@@ -29,6 +29,13 @@ describe InvitationsController, type: :controller do
     expect { action }.to change { inviter.affilation_earnings_cents }.by(500)
   end
 
+  it 'responds with new user' do
+    action
+    hash = JSON.parse response.body
+    expect(hash['user']['email']).to eq invitation.invitee_email
+  end
+
+
   context 'errors happen' do
 
     before do

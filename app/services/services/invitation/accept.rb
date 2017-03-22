@@ -4,7 +4,7 @@ module Services
 
       attr_reader :invitation
 
-      def initialize(invitation:)
+      def initialize(invitation)
         @invitation = invitation
       end
 

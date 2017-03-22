@@ -5,6 +5,7 @@ describe Services::Invitation::Create do
   let(:inviter)    { Factories.create_user }
   let(:invitee_email) { 'invitee@foo.com' }
   let(:service)    { described_class.new(inviter: inviter, email: invitee_email) }
+  let(:invitation) { service.invitation }
 
   it 'does create invitation' do
     expect { service.call }.to change { User.count }.by 1
@@ -12,7 +13,7 @@ describe Services::Invitation::Create do
 
   it 'links invitation to inviter' do
     service.call
-    expect(service.invitation.inviter).to be_present
+    expect(invitation.inviter).to be_present
   end
 
   it 'sends invitation email' do

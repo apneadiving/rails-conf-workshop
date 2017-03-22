@@ -2,8 +2,8 @@ require 'spec_helper'
 
 xdescribe Services::User::CreateFromInvitation do
 
-  let(:service)    { described_class.new(invitation) }
-  let(:invitation) { Invitation.new(invitee_email: 'john@doe.com') }
+  let(:service)     { described_class.new(invitation) }
+  let!(:invitation) { Factories.create_invitation }
 
   it 'does create user' do
     expect { service.call }.to change { User.count }.by 1

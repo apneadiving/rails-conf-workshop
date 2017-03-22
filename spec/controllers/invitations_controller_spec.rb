@@ -38,13 +38,13 @@ describe InvitationsController, type: :controller do
     it 'must not create a user' do
       initial_user_count = User.count
 
-      expect { action }.to raise_error
+      expect { action }.to raise_error(ActiveRecord::ActiveRecordError)
 
       expect(User.count).to eq initial_user_count
     end
 
     it 'must not accept invitation' do
-      expect { action }.to raise_error
+      expect { action }.to raise_error(ActiveRecord::ActiveRecordError)
 
       invitation.reload
 

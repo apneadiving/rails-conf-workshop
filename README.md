@@ -32,7 +32,3 @@ rake
 - split code to relevant services: [user/create_from_invitation](https://github.com/apneadiving/rails-conf-workshop/blob/master/app/services/services/user/create_from_invitation.rb), [user/credit](https://github.com/apneadiving/rails-conf-workshop/blob/master/app/services/services/user/credit.rb)
 - change user/create_from_invitation, user/credit to boolean services so we can call them from invitation/accept
 - change to waterfall implementation
-
-
-##
-https://github.com/datacamp/main-app/blob/googletag/app/controllers/user_subscriptions_controller.rb#L5

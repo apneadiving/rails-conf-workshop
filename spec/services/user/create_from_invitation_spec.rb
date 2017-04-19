@@ -11,7 +11,7 @@ xdescribe Services::User::CreateFromInvitation do
 
   it 'links invitation to user' do
     service.call
-    expect(invitation.invitee).to be_present
+    expect(invitation.user).to be_present
   end
 
   it 'sends welcome_email' do

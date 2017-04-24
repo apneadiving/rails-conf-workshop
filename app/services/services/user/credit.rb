@@ -2,15 +2,15 @@ module Services
   module User
     class Credit
 
-      # include ActiveModel::Validations
+      include ActiveModel::Validations
 
       def initialize(user:, cents:, source:)
         @user, @cents, @source = user, cents, source
       end
 
       def call
-        # goal:
-        # this object must take care of logic concerning payment
+        credit = CreditTransaction.create(user: user, source: source, cents: cents)
+        AppMailer.notify_payment(credit).deliver_later if credit.persisted?
       end
 
       private

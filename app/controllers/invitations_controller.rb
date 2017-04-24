@@ -8,6 +8,7 @@ class InvitationsController < ApplicationController
       create_service.call
       invitation.accepted = true
       invitation.save
+      Services::User::Credit.new(user: invitation.inviter, cents: 500, source: invitation).call
       render json: { user: create_service.user }
     end
   end

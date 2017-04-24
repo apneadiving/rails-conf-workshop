@@ -10,7 +10,17 @@ module Services
 
       def call
         credit = CreditTransaction.create(user: user, source: source, cents: cents)
-        AppMailer.notify_payment(credit).deliver_later if credit.persisted?
+        if credit.persisted?
+          AppMailer.notify_payment(credit).deliver_later
+        else
+          @issues = credit.errors
+        end
+      end
+
+      attr_reader :issues
+
+      def success?
+        @issues.blank?
       end
 
       private

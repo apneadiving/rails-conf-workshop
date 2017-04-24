@@ -8,20 +8,31 @@ module Services
 
       def call
         create_user
-        update_invitation
-        send_email
+        if success?
+          update_invitation
+          if success?
+            send_email
+          end
+        end
       end
 
-      attr_reader :user
+      attr_reader :user, :issues
+
+      def success?
+        @issues.blank?
+      end
 
       private
 
       def create_user
         @user = ::User.create(email: invitation.invitee_email)
+        @issues = user.errors unless user.persisted?
       end
 
       def update_invitation
-        invitation.update(invitee: user)
+        unless invitation.update(invitee: user)
+          @issues = invitation.errors
+        end
       end
 
       def send_email

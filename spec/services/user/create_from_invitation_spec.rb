@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-xdescribe Services::User::CreateFromInvitation do
+describe Services::User::CreateFromInvitation do
 
   let(:service)     { described_class.new(invitation) }
   let!(:invitation) { Factories.create_invitation }

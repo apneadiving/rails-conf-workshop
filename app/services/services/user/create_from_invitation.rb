@@ -7,14 +7,26 @@ module Services
       end
 
       def call
-        # goal:
-        # - remove email sending from user model
-        # - remove import_context from User model
-        # - remove after create altogether
-        ::User.create_from_invitation(invitation)
+        create_user
+        update_invitation
+        send_email
       end
 
+      attr_reader :user
+
       private
+
+      def create_user
+        @user = ::User.create(email: invitation.invitee_email)
+      end
+
+      def update_invitation
+        invitation.update(invitee: user)
+      end
+
+      def send_email
+        AppMailer.welcome_email(user).deliver_later
+      end
 
       attr_reader :invitation
     end

@@ -4,10 +4,11 @@ class InvitationsController < ApplicationController
     if invitation.accepted?
       render json: { errors: ['Invitation already accepted'] }, status: 422
     else
-      user = User.create_from_invitation(invitation)
+      create_service = ::Services::User::CreateFromInvitation.new(invitation)
+      create_service.call
       invitation.accepted = true
       invitation.save
-      render json: { user: user }
+      render json: { user: create_service.user }
     end
   end
 

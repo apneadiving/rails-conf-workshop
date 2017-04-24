@@ -10,8 +10,6 @@ class User < ActiveRecord::Base
   def send_email
     if import_context
       AppMailer.welcome_email(self).deliver_later
-    else
-      AppMailer.signup_email(self).deliver_later
     end
   end
 

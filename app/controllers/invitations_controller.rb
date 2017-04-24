@@ -1,13 +1,14 @@
 class InvitationsController < ApplicationController
 
   def accept
-    service = Services::Invitation::Accept.new(invitation)
-    service.call
-    if service.success?
-      render json: { user: service.user }
-    else
-      render json: { errors: service.issues.full_messages }, status: 422
-    end
+    Wf.new
+      .chain(user: :user) { Services::Invitation::Accept.new(invitation) }
+      .chain do |outflow|
+        render json: { user: outflow.user }
+      end
+      .on_dam do |error_pool|
+        render json: { errors: error_pool.full_messages }, status: 422
+      end
   end
 
   private

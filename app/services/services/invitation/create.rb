@@ -9,14 +9,19 @@ module Services
       end
 
       def call
-        # remove after create callback from invitation
         @invitation = ::Invitation.create(
           inviter: inviter,
           invitee_email: invitee_email
         )
+
+        send_invitation_email if invitation.persisted?
       end
 
       private
+
+      def send_invitation_email
+        AppMailer.invitation_email(invitation).deliver_later
+      end
 
       attr_reader :inviter, :invitee_email
     end

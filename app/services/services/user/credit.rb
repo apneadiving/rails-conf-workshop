@@ -3,29 +3,22 @@ module Services
     class Credit
 
       include ActiveModel::Validations
+      include Waterfall
 
       def initialize(user:, cents:, source:)
         @user, @cents, @source = user, cents, source
       end
 
       def call
-        credit = CreditTransaction.create(user: user, source: source, cents: cents)
-        if credit.persisted?
-          AppMailer.notify_payment(credit).deliver_later
-        else
-          @issues = credit.errors
-        end
-      end
-
-      attr_reader :issues
-
-      def success?
-        @issues.blank?
+        chain { @credit = CreditTransaction.create(user: user, source: source, cents: cents) }
+        when_falsy { credit.persisted? }
+          .dam { credit.errors }
+        chain { AppMailer.notify_payment(credit).deliver_later }
       end
 
       private
 
-      attr_reader :user, :cents, :source
+      attr_reader :user, :cents, :source, :credit
     end
   end
 end

@@ -25,4 +25,4 @@ rake
 ```
 
 ## Course of action
-[See presentation](https://slides.com/apneadiving/rails-conf-intro/live#/)
+[See presentation](https://slides.com/apneadiving/rails-conf-intro)
